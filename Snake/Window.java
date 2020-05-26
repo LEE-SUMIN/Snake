@@ -9,29 +9,24 @@ import java.awt.event.KeyEvent;
  * Click F1, F2, F3, F4 or F5 to change the color.
  */
 public class Window extends JFrame {
-
     private Engine engine;
-
+    
+    private final int canvasWidth = Properties.SQUARE_SIZE * Properties.BOARD_COLUMNS;
+    private final int canvasHeight = Properties.SQUARE_SIZE * Properties.BOARD_ROWS;
+    
     private Window() {
-        engine = createEngine();
+        createEngine();
         setWindowProperties();
     }
 
-    private Engine createEngine () {
-
+    private void createEngine () {
         Container cp = getContentPane();
-        GameBoard gameBoard = new GameBoard();
-        Engine engine = new Engine(gameBoard);
-
-        int canvasWidth = Properties.SQUARE_SIZE * Properties.BOARD_COLUMNS;
-        int canvasHeight = Properties.SQUARE_SIZE * Properties.BOARD_ROWS;
+        engine = new Engine();
+        
         engine.setPreferredSize(new Dimension(canvasWidth, canvasHeight));
-
         addKeyListener(new MyKeyAdapter());
 
         cp.add(engine);
-
-        return engine;
     }
 
     private void setWindowProperties () {
@@ -43,123 +38,78 @@ public class Window extends JFrame {
         setLocationRelativeTo(null);// Center window
     }
 
-    private void startGame (Engine engine) {
-        Thread th = new Thread(engine);
-        th.start();
-    }
-
-    /**
-     * Contains the game loop.
-     */
-    private class Engine extends JPanel implements Runnable {
-
-        private GameBoard gameBoard;
-        private boolean running = false;
-
-        private Engine(GameBoard gameBoard) {
-            this.gameBoard = gameBoard;
-        }
-
-        @Override
-        protected void paintComponent(Graphics graphics) {
-            super.paintComponent(graphics);
-
-            // Ensures that it will run smoothly on Linux.
-            if (System.getProperty("os.name").equals("Linux")) {
-                Toolkit.getDefaultToolkit().sync();
-            }
-
-            setBackground(Properties.backgroundColor);
-            gameBoard.paint(graphics);
-        }
-
-        public void run () {
-
-            long lastTime = System.nanoTime();
-            double elapsedTime = 0.0;
-            double FPS = 15.0;
-
-            // Game loop.
-            while (true) {
-
-                long now = System.nanoTime();
-                elapsedTime += ((now - lastTime) / 1_000_000_000.0) * FPS;
-                lastTime = System.nanoTime();
-
-                if (elapsedTime >= 1) {
-                    gameBoard.update();
-                    setTitle("Snake - Score: " + gameBoard.getScore());
-                    elapsedTime--;
-                    
-                }
-
-                sleep();
-                
-                //7/28/2017
-                //If the rainbow theme is selected lets update the color
-                if (Properties.getTheme() == Properties.Theme.Rainbow) Properties.changeColor();
-                
-                repaint();
-            }
-        }
-
-    }
-
-    /**
-     * Sleep for 10 milliseconds.
-     */
-    private void sleep () {
-        try {
-            Thread.sleep(10);
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
+    private void startGame () {
+        engine.startGame();
     }
 
     private class MyKeyAdapter extends KeyAdapter {
-
+    	// maybe move to properties?
+    	private final int LEFT = KeyEvent.VK_LEFT;
+    	private final int RIGHT = KeyEvent.VK_RIGHT;
+    	private final int UP =  KeyEvent.VK_UP;
+    	private final int DOWN = KeyEvent.VK_DOWN;
+    	private final int F1 = KeyEvent.VK_F1;
+    	private final int F2 = KeyEvent.VK_F2;
+    	private final int F3 = KeyEvent.VK_F3;
+    	private final int F4 = KeyEvent.VK_F4;
+    	private final int F5 = KeyEvent.VK_F5; 
+    	
+    	private int keyCode;
+    	
+    	//private boolean 
+    	private boolean isFunctionKey() {
+    		return keyCode == F1 || keyCode == F2 || keyCode == F3 || keyCode == F4 || keyCode == F5;
+    	}
+    	
+    	private boolean isMoveKey() {
+    		return keyCode == LEFT || keyCode == RIGHT || keyCode == UP || keyCode == DOWN;
+    	}
+    	
+    	private boolean isGameStarted() {
+    		return engine.running && isMoveKey();
+    	}
+    	
         @Override
         public void keyPressed(KeyEvent keyEvent) {
-
-            if (!engine.running && keyEvent.getKeyCode() != KeyEvent.VK_F1 && keyEvent.getKeyCode() != KeyEvent.VK_F2 && keyEvent.getKeyCode() != KeyEvent.VK_F3 && keyEvent.getKeyCode() != KeyEvent.VK_F4 && keyEvent.getKeyCode() != KeyEvent.VK_F5) {
-                startGame(engine);
-                engine.running = true;
-            }
-
-            if (keyEvent.getKeyCode() == KeyEvent.VK_LEFT) {
-                engine.gameBoard.directionLeft();
-            } else if (keyEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
-                engine.gameBoard.directionRight();
-            } else if (keyEvent.getKeyCode() == KeyEvent.VK_UP) {
-                engine.gameBoard.directionUp();
-            } else if (keyEvent.getKeyCode() == KeyEvent.VK_DOWN) {
-                engine.gameBoard.directionDown();
-            }
-
-            if (keyEvent.getKeyCode() == KeyEvent.VK_F1) {
-                Properties.Dark();
-                repaint();
-            }
-            else if (keyEvent.getKeyCode() == KeyEvent.VK_F2) {
-                Properties.Sky();
-                repaint();
-            }
-            else if (keyEvent.getKeyCode() == KeyEvent.VK_F3) {
-                Properties.Mud();
-                repaint();
-            }
-            else if (keyEvent.getKeyCode() == KeyEvent.VK_F4) {
-                Properties.Sand();
-                repaint();
-            }
-            else if (keyEvent.getKeyCode() == KeyEvent.VK_F5) {
-                Properties.Rainbow();
-                repaint();
+        	keyCode = keyEvent.getKeyCode();
+        	
+        	if(isFunctionKey()) {
+      			switch(keyCode) {
+    			case F1:
+    				Properties.Dark();
+    				break;
+    			case F2:
+    				Properties.Sky();
+    				break;
+    			case F3:
+    				Properties.Mud();
+    				break;
+    			case F4:
+    				Properties.Rainbow();
+    				break;
+    			}
+    			repaint();  // should be replaced returnning start game signal to window
+        	}else if (!isGameStarted()) {
+            	startGame(); // should be replaced returnning start game signal to window
+            }else if (isMoveKey()) {
+            	switch(keyCode) {
+            	case LEFT:
+            		engine.gameBoard.directionLeft();
+            		break;
+            	case RIGHT:
+            		engine.gameBoard.directionRight();
+            		break;
+            	case UP:
+            		engine.gameBoard.directionUp();
+            		break;
+            	case DOWN:
+            		engine.gameBoard.directionDown();
+            		break;
+            	}
             }
         }
-
     }
-
+    
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new Window());
     }
