@@ -9,7 +9,7 @@ import java.util.Random;
  * cannot move 180 degrees. Example: if the Snake is moving right, it cannot
  * immediately change its direction to left because it would run into itself.
  */
-class GameBoard  {
+class GameBoard implements Observer {
 
     private Square food;
     private Snake snake;
@@ -34,7 +34,7 @@ class GameBoard  {
     /**
      * Move the Snake.
      */
-    void update () {
+    public void update () {
         moveSnake();
     }
 
@@ -187,6 +187,18 @@ class GameBoard  {
     private void growSnake () {
         snake.grow();
         score += 10;
+    }
+    
+    public Snake getSnake() {
+    	return snake;
+    }
+    
+    public int getFoodX() {
+    	return food.getX();
+    }
+    
+    public int getFoodY() {
+    	return food.getY();
     }
 
     void paint (Graphics graphics) {

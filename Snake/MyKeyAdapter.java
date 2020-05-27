@@ -8,7 +8,6 @@ public class MyKeyAdapter extends KeyAdapter {
         public void keyPressed(KeyEvent keyEvent) {
         	int keyCode = keyEvent.getKeyCode();
         	
-        	
         /*	
         	if(isFunctionKey()) {
       			switch(keyCode) {

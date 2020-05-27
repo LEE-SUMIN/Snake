@@ -22,12 +22,14 @@ public class Window extends JFrame implements Observer{
 
     private void createEngine () {
         Container cp = getContentPane();
+
         engine = Engine.getEngine();
-        engine.setWindow(this);
-        engine.setPreferredSize(new Dimension(canvasWidth, canvasHeight));
+        Painter painter = engine.getPainter();
+        
+        painter.setPreferredSize(new Dimension(canvasWidth, canvasHeight));
         addKeyListener(new MyKeyAdapter());
 
-        cp.add(engine);
+        cp.add(painter);
     }
 
     private void setWindowProperties () {
@@ -37,10 +39,6 @@ public class Window extends JFrame implements Observer{
         pack();
         setVisible(true);
         setLocationRelativeTo(null);// Center window
-    }
-
-    public void setBackgroundHandler(Object object) {
-    	setBackground((Color)object);
     }
     
 	@Override

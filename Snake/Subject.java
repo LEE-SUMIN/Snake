@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public abstract class Subject {
-	public ArrayList<Observer> ob_list;
+	public ArrayList<Observer> ob_list = new ArrayList<Observer>();
 	
 	public void attach(Observer o) {
 		ob_list.add(o);

@@ -3,9 +3,10 @@ import java.awt.Toolkit;
 
 import javax.swing.JPanel;
 
-public class Engine extends JPanel implements Runnable {
+public class Engine extends Subject implements Runnable {
 	private static Engine engine = new Engine();
     private GameBoard gameBoard;
+    
     private Window window;
     private Painter painter;
     
@@ -14,13 +15,23 @@ public class Engine extends JPanel implements Runnable {
     private Engine() {
         this.gameBoard = new GameBoard();
         this.painter = new Painter();
+        
+        attach(painter);
+        attach(gameBoard);
+        //attach(window);
     }
     
     public static Engine getEngine() {
     	return engine;
     }
     
+    public Painter getPainter() {
+    	return painter;
+    }
+    
+    //////////////////////////////////////////////////////////////////////////////////////////////////
     // keyboard handling
+    //////////////////////////////////////////////////////////////////////////////////////////////////
     public void keyInterruptHandler(int keyCode) {
     	if(!engine.running && !KeyManager.isFunctionKey(keyCode)) {
     		startGame();
@@ -67,26 +78,28 @@ public class Engine extends JPanel implements Runnable {
 			break;
 		}
 	}
-	
-
-	//paint
+    
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+	//paint managerment
+    //////////////////////////////////////////////////////////////////////////////////////////////////
     public void setWindow(Window _window) {
     	this.window = _window;
     }
     
+
     
-    @Override
-    protected void paintComponent(Graphics graphics) {
-        super.paintComponent(graphics);
-
-        // Ensures that it will run smoothly on Linux.
-        if (System.getProperty("os.name").equals("Linux")) {
-            Toolkit.getDefaultToolkit().sync();
-        }
-
-        setBackground(Properties.backgroundColor);
-        gameBoard.paint(graphics);
+    public Snake getSnake() {
+    	return gameBoard.getSnake();
     }
+    
+    public int getFoodX() {
+    	return gameBoard.getFoodX();
+    }
+    
+    public int getFoodY() {
+    	return gameBoard.getFoodY();
+    }
+    
     
     public void startGame() {
     	running = true;
@@ -103,6 +116,7 @@ public class Engine extends JPanel implements Runnable {
         double elapsedTime = 0.0;
         double FPS = 15.0;
 
+        
         // Game loop.
         while (true) {
             long now = System.nanoTime();
@@ -110,19 +124,13 @@ public class Engine extends JPanel implements Runnable {
             lastTime = System.nanoTime();
 
             if (elapsedTime >= 1) {
-                gameBoard.update();
-                //setTitle("Snake - Score: " + gameBoard.getScore());
                 elapsedTime--;
                 
             }
 
             sleep();
-               
-            //7/28/2017
-            //If the rainbow theme is selected lets update the color
-            if (Properties.getTheme() == Properties.Theme.Rainbow) Properties.changeColor();
-                
-            repaint();
+            
+            update();    
         }
     }
     
@@ -133,4 +141,6 @@ public class Engine extends JPanel implements Runnable {
             ex.printStackTrace();
         }
     }
+    
+
 }
