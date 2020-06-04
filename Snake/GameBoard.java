@@ -13,17 +13,27 @@ public class GameBoard  {
    
     private static GameBoard gameBoard;
     private static int num_invoke;
-    private beforeMove data = new beforeMove(0, Direction.DOWN);
+    private Food food;
+    private Snake snake;
+    private int score = 0;
 
-	/**
+    /**
+     * Keep track of the last move so that the Snake cannot do 180 degree turns,
+     * only 90 degree turns.
+     */
+    private Direction movement = Direction.DOWN;
+    private SnakeMoveBehavior snakeMoveBehavior;
+    private Direction lastMove = movement;
+
+    /**
      * Constructs the board.
      */
     GameBoard () {
        gameBoard = this;
        num_invoke = 0;
-       this.data.snake = Snake.get_snake();
-       this.data.food = new Food();
-       this.data.snakeMoveBehavior = new DownBehavior();
+       this.snake = Snake.get_snake();
+       this.food = new Food();
+       this.snakeMoveBehavior = new DownBehavior();
        update();
     }
     
@@ -45,23 +55,23 @@ public class GameBoard  {
     }
     
     void set_food(Food food) {
-    	this.data.food = food;
+    	this.food = food;
     }
     
     Food get_food() {
-    	return data.food;
+    	return food;
     }
     
     void set_movement(Direction direction) {
-    	data.movement = direction;
+    	movement = direction;
     }
     
     void set_behavior(SnakeMoveBehavior snakeMoveBehavior) {
-    	this.data.snakeMoveBehavior = snakeMoveBehavior;
+    	this.snakeMoveBehavior = snakeMoveBehavior;
     }
     
     void directionLeft () {
-        if (data.lastMove != Direction.RIGHT || getSnakeSize() == 1) {
+        if (lastMove != Direction.RIGHT || getSnakeSize() == 1) {
             set_movement(Direction.LEFT);
             set_behavior(new LeftBehavior());
         }
@@ -71,7 +81,7 @@ public class GameBoard  {
      * Sets the direction of the Snake to go right.
      */
     void directionRight () {
-        if (data.lastMove != Direction.LEFT || getSnakeSize() == 1) {
+        if (lastMove != Direction.LEFT || getSnakeSize() == 1) {
         	set_movement(Direction.RIGHT);
             set_behavior(new RightBehavior());
         }
@@ -81,7 +91,7 @@ public class GameBoard  {
      * Sets the direction of the Snake to go up.
      */
     void directionUp () {
-        if (data.lastMove != Direction.DOWN || getSnakeSize() == 1) {
+        if (lastMove != Direction.DOWN || getSnakeSize() == 1) {
         	set_movement(Direction.UP);
             set_behavior(new UpBehavior());
         }
@@ -91,7 +101,7 @@ public class GameBoard  {
      * Sets the direction of the Snake to go down.
      */
     void directionDown () {
-        if (data.lastMove != Direction.UP || getSnakeSize() == 1) {
+        if (lastMove != Direction.UP || getSnakeSize() == 1) {
         	set_movement(Direction.DOWN);
             set_behavior(new DownBehavior());
         }
@@ -101,20 +111,20 @@ public class GameBoard  {
      * Moves the Snake one square, according to its direction.
      */
     private void moveSnake () {
-        data.snakeMoveBehavior.action();
-        data.lastMove = data.movement;
+        snakeMoveBehavior.action();
+        lastMove = movement;
     }
 
     int getScore () {
-        return data.score;
+        return score;
     }
     
     void addScore(int score) {
-    	this.data.score += score;
+    	this.score += score;
     }
     
     private int getSnakeSize () {
-        return data.snake.getSize();
+        return snake.getSize();
     }
 
     void paint (Graphics graphics) {
@@ -130,7 +140,7 @@ public class GameBoard  {
         int x, y;
         int corner = Properties.SQUARE_SIZE / 3;
 
-        for (Square sq : data.snake) {
+        for (Square sq : snake) {
 
             x = sq.getX() * Properties.SQUARE_SIZE;
             y = sq.getY() * Properties.SQUARE_SIZE;
@@ -143,8 +153,8 @@ public class GameBoard  {
     }
 
     private void paintFood (Graphics2D g) {
-        int x = data.food.get_X() * Properties.SQUARE_SIZE;
-        int y = data.food.get_Y() * Properties.SQUARE_SIZE;
+        int x = food.get_X() * Properties.SQUARE_SIZE;
+        int y = food.get_Y() * Properties.SQUARE_SIZE;
         int corner = Properties.SQUARE_SIZE / 3;
 
         g.setColor(Properties.foodColor);
@@ -161,9 +171,9 @@ public class GameBoard  {
             for (int x = 0; x < Properties.BOARD_COLUMNS; x++) {
                 Square sq = new Square(x, y);
 
-                if (data.snake.contains(sq)) {
+                if (snake.contains(sq)) {
                     sb.append("S");
-                } else if (data.food.get_food().equals(sq)) {
+                } else if (food.get_food().equals(sq)) {
                     sb.append("F");
                 } else {
                     sb.append("-");
