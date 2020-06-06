@@ -1,3 +1,4 @@
+package snake;
 
 public class LeftBehavior extends CheckTemplate implements SnakeMoveBehavior{
 

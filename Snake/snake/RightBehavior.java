@@ -1,3 +1,4 @@
+package snake;
 
 public class RightBehavior extends CheckTemplate implements SnakeMoveBehavior{
 
