@@ -1,16 +1,14 @@
-import java.awt.Graphics;
-import java.awt.Toolkit;
-
-import javax.swing.JPanel;
 
 public class Engine extends Subject implements Runnable {
-	private static Engine engine = new Engine();
+	private static Engine engine;
     private GameBoard gameBoard;
-    
-    private Window window;
     private Painter painter;
     
     private boolean running = false;
+    
+    public static void initialize() {
+    	engine = new Engine();
+    }
     
     private Engine() {
         this.gameBoard = new GameBoard();
@@ -18,7 +16,6 @@ public class Engine extends Subject implements Runnable {
         
         attach(painter);
         attach(gameBoard);
-        //attach(window);
     }
     
     public static Engine getEngine() {
@@ -42,22 +39,21 @@ public class Engine extends Subject implements Runnable {
     	if(KeyManager.isMoveKey(keyCode)) {
     		selectMovement(keyCode);
     	}
-    	
     }
 
 	private void selectBackGround(int keyCode) {
     	switch(keyCode) {
     	case KeyManager.F1:
-    		Properties.Dark();
+    		painter.setBackground("Dark");
     		break;
     	case KeyManager.F2:
-    		Properties.Sky();
+    		painter.setBackground("Sky");
     		break;
     	case KeyManager.F3:
-    		Properties.Mud();
+    		painter.setBackground("Mud");
     		break;
     	case KeyManager.F4:
-    		Properties.Rainbow();
+    		painter.setBackground("Rainbow");
     		break;
     	}
 	}
@@ -82,12 +78,6 @@ public class Engine extends Subject implements Runnable {
     //////////////////////////////////////////////////////////////////////////////////////////////////
 	//paint managerment
     //////////////////////////////////////////////////////////////////////////////////////////////////
-    public void setWindow(Window _window) {
-    	this.window = _window;
-    }
-    
-
-    
     public Snake getSnake() {
     	return gameBoard.getSnake();
     }
@@ -99,7 +89,6 @@ public class Engine extends Subject implements Runnable {
     public int getFoodY() {
     	return gameBoard.getFoodY();
     }
-    
     
     public void startGame() {
     	running = true;
@@ -127,16 +116,15 @@ public class Engine extends Subject implements Runnable {
                 elapsedTime--;
                 
             }
-
-            sleep();
             
+            sleep();
             update();    
         }
     }
     
     private void sleep () {
         try {
-            Thread.sleep(10);
+            Thread.sleep(100);
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }

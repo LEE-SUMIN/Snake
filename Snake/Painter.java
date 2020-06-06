@@ -8,14 +8,16 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class Painter extends JPanel implements Observer{
 	private Graphics2D g;
+	private Engine engine = null;
 	
 	public Painter() {
-		
 	}
 	
     @Override
     protected void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
+
+        if(engine == null) engine = Engine.getEngine();
         g = (Graphics2D) graphics;
         
         // Ensures that it will run smoothly on Linux.
@@ -24,6 +26,7 @@ public class Painter extends JPanel implements Observer{
         }
 
         setBackground(Properties.backgroundColor);
+        update();
     }
 	
 	@Override
@@ -31,20 +34,38 @@ public class Painter extends JPanel implements Observer{
 		// TODO Auto-generated method stub
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         
-		paintSnake( Engine.getEngine().getSnake() );
-		paintFood(Engine.getEngine().getFoodX(), Engine.getEngine().getFoodY());
+		paintSnake( engine.getSnake() );
+		paintFood(engine.getFoodX(), engine.getFoodY());
 
         if (Properties.getTheme() == Properties.Theme.Rainbow) Properties.changeColor();
         
 		repaint();
 	}
 
+	public void setBackground(String color) {
+		switch(color) {
+		case "Dark":
+			Properties.Dark();
+			break;
+		case "Sky":
+			Properties.Sky();
+			break;
+		case "Mud":
+			Properties.Mud();
+			break;
+		case "Rainbow":
+			Properties.Rainbow();
+			break;
+		}
+		
+		repaint();
+	}
+	
     private void paintSnake (Snake snake) {
         int x, y;
         int corner = Properties.SQUARE_SIZE / 3;
 
         for (Square sq : snake) {
-
             x = sq.getX() * Properties.SQUARE_SIZE;
             y = sq.getY() * Properties.SQUARE_SIZE;
 

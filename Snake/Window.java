@@ -23,6 +23,7 @@ public class Window extends JFrame implements Observer{
     private void createEngine () {
         Container cp = getContentPane();
 
+        Engine.initialize();
         engine = Engine.getEngine();
         Painter painter = engine.getPainter();
         
