@@ -10,7 +10,7 @@ import java.util.Random;
  * cannot move 180 degrees. Example: if the Snake is moving right, it cannot
  * immediately change its direction to left because it would run into itself.
  */
-class GameBoard  {
+class GameBoard implements Observer {
 	private static GameBoard gameBoard;
     private Food food;
     private Snake snake;
@@ -49,7 +49,7 @@ class GameBoard  {
     /**
      * Move the Snake.
      */
-    void update () {
+    public void update () {
         moveSnake();
     }
 
@@ -128,40 +128,6 @@ class GameBoard  {
     	this.score += score;
     }
 
-    void paint (Graphics graphics) {
-
-        Graphics2D g = (Graphics2D) graphics;
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        paintSnake(g);
-        paintFood(g);
-    }
-
-    private void paintSnake (Graphics2D g) {
-        int x, y;
-        int corner = properties.getSquareSize() / 3;
-
-        for (Square sq : snake) {
-
-            x = sq.getX() * properties.getSquareSize();
-            y = sq.getY() * properties.getSquareSize();
-
-            g.setColor(properties.getSnakeColor());
-            g.fillRoundRect(x + 1, y + 1, properties.getSquareSize() - 2,
-                    properties.getSquareSize() - 2, corner, corner);
-
-        }
-    }
-
-    private void paintFood (Graphics2D g) {
-        int x = food.get_X() * properties.getSquareSize();
-        int y = food.get_Y() * properties.getSquareSize();
-        int corner = properties.getSquareSize() / 3;
-
-        g.setColor(properties.getFoodColor());
-        g.fillRoundRect(x + 1, y + 1, properties.getSquareSize() - 2,
-                properties.getSquareSize() - 2, corner, corner);
-    }
 
     @Override
     public String toString () {
