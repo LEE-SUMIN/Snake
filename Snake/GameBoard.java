@@ -200,41 +200,7 @@ class GameBoard implements Observer {
     public int getFoodY() {
     	return food.getY();
     }
-
-    void paint (Graphics graphics) {
-        Graphics2D g = (Graphics2D) graphics;
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        paintSnake(g);
-        paintFood(g);
-    }
-
-    private void paintSnake (Graphics2D g) {
-        int x, y;
-        int corner = Properties.SQUARE_SIZE / 3;
-
-        for (Square sq : snake) {
-
-            x = sq.getX() * Properties.SQUARE_SIZE;
-            y = sq.getY() * Properties.SQUARE_SIZE;
-
-            g.setColor(Properties.snakeColor);
-            g.fillRoundRect(x + 1, y + 1, Properties.SQUARE_SIZE - 2,
-                    Properties.SQUARE_SIZE - 2, corner, corner);
-
-        }
-    }
-
-    private void paintFood (Graphics2D g) {
-        int x = food.getX() * Properties.SQUARE_SIZE;
-        int y = food.getY() * Properties.SQUARE_SIZE;
-        int corner = Properties.SQUARE_SIZE / 3;
-
-        g.setColor(Properties.foodColor);
-        g.fillRoundRect(x + 1, y + 1, Properties.SQUARE_SIZE - 2,
-                Properties.SQUARE_SIZE - 2, corner, corner);
-    }
-
+    
     @Override
     public String toString () {
 
