@@ -24,6 +24,7 @@ class GameBoard  {
     private Direction movement;
     private SnakeMoveBehavior snakeMoveBehavior;
     private Direction lastMove = movement;
+    private Direction nextMove = null;
 
     /**
      * Constructs the board.
@@ -68,13 +69,22 @@ class GameBoard  {
     void set_behavior(SnakeMoveBehavior snakeMoveBehavior) {
     	this.snakeMoveBehavior = snakeMoveBehavior;
     }
-
+    
     /**
      * Sets the direction of the Snake to go left.
      */
+    Direction reverse(Direction direction) {
+    	Direction rev = null;
+    	if(direction ==Direction.LEFT) rev = Direction.RIGHT;
+    	if(direction ==Direction.RIGHT) rev = Direction.LEFT;
+    	if(direction ==Direction.UP) rev = Direction.DOWN;
+    	if(direction ==Direction.DOWN) rev = Direction.UP;
+		return rev;
+    }
     void directionLeft () {
-        if (lastMove != Direction.RIGHT || getSnakeSize() == 1) {
-            set_movement(Direction.LEFT);
+    	nextMove = Direction.LEFT;
+        if (lastMove != reverse(nextMove)|| getSnakeSize() == 1) {
+            set_movement(nextMove);
             set_behavior(new LeftBehavior());
         }
     }
@@ -83,8 +93,9 @@ class GameBoard  {
      * Sets the direction of the Snake to go right.
      */
     void directionRight () {
-        if (lastMove != Direction.LEFT || getSnakeSize() == 1) {
-            set_movement(Direction.RIGHT);
+    	nextMove = Direction.RIGHT;
+        if (lastMove != reverse(nextMove) || getSnakeSize() == 1) {
+            set_movement(nextMove);
             set_behavior(new RightBehavior());
         }
     }
@@ -93,8 +104,8 @@ class GameBoard  {
      * Sets the direction of the Snake to go up.
      */
     void directionUp () {
-        if (lastMove != Direction.DOWN || getSnakeSize() == 1) {
-        	set_movement(Direction.UP);
+        if (lastMove != reverse(nextMove) || getSnakeSize() == 1) {
+        	set_movement(nextMove);
             set_behavior(new UpBehavior());
         }
     }
@@ -103,8 +114,8 @@ class GameBoard  {
      * Sets the direction of the Snake to go down.
      */
     void directionDown () {
-        if (lastMove != Direction.UP || getSnakeSize() == 1) {
-        	set_movement(Direction.DOWN);
+        if (lastMove != reverse(nextMove) || getSnakeSize() == 1) {
+        	set_movement(nextMove);
             set_behavior(new DownBehavior());
         }
     }
