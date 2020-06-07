@@ -10,7 +10,7 @@ import java.awt.*;
  * immediately change its direction to left because it would run into itself.
  */
 
-class GameBoard  {
+class GameBoard  implements Observer {
 	private static GameBoard gameBoard;
     private Food food;
     private Snake snake;
