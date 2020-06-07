@@ -1,6 +1,4 @@
 package snake;
-import java.awt.*;
-import java.util.Random;
 
 /**
  * Represents the environment where the Snake moves a food spawns.
@@ -16,7 +14,7 @@ class GameBoard implements Observer {
     private Snake snake;
     private int score = 0;
     private Properties properties = Properties.Instance();
-    DirectionController directionController;
+    private DirectionController directionController;
 
     /**
      * Keep track of the last move so that the Snake cannot do 180 degree turns,
@@ -35,6 +33,7 @@ class GameBoard implements Observer {
         this.snake = Snake.get_snake();
         this.food = new Food();
         this.snakeMoveBehavior = new DownBehavior();
+        this.directionController = new DirectionController(Direction.DOWN);
         properties=Properties.Instance();
         update();
     }
@@ -72,28 +71,28 @@ class GameBoard implements Observer {
     }
     
     void directionLeft () {
-    	directionController.setDirection(gameBoard, movement, Direction.LEFT);   	
+    	directionController.set_direction(movement, Direction.LEFT);   	
     }
 
     /**
      * Sets the direction of the Snake to go right.
      */
     void directionRight () {
-    	directionController.setDirection(gameBoard, movement, Direction.RIGHT);
+    	directionController.set_direction(movement, Direction.RIGHT);
     }
 
     /**
      * Sets the direction of the Snake to go up.
      */
     void directionUp () {
-    	directionController.setDirection(gameBoard, movement, Direction.UP);
+    	directionController.set_direction(movement, Direction.UP);
     }
 
     /**
      * Sets the direction of the Snake to go down.
      */
     void directionDown () {
-    	directionController.setDirection(gameBoard, movement, Direction.DOWN);
+    	directionController.set_direction(movement, Direction.DOWN);
     }
 
     /**
