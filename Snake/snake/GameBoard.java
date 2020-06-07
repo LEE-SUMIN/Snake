@@ -1,5 +1,6 @@
 package snake;
 import java.awt.*;
+import java.util.Random;
 
 /**
  * Represents the environment where the Snake moves a food spawns.
@@ -9,22 +10,18 @@ import java.awt.*;
  * cannot move 180 degrees. Example: if the Snake is moving right, it cannot
  * immediately change its direction to left because it would run into itself.
  */
-
-class GameBoard  implements Observer {
+class GameBoard implements Observer {
 	private static GameBoard gameBoard;
     private Food food;
     private Snake snake;
     private int score = 0;
     private Properties properties = Properties.Instance();
 
-
     /**
      * Keep track of the last move so that the Snake cannot do 180 degree turns,
      * only 90 degree turns.
      */
-
     private Direction movement;
-
     private SnakeMoveBehavior snakeMoveBehavior;
     private Direction lastMove = movement;
 
@@ -47,13 +44,12 @@ class GameBoard  implements Observer {
     		gameBoard = new GameBoard();
     	}
     	return gameBoard;
-
     }
 
     /**
      * Move the Snake.
      */
-    void update () {
+    public void update () {
         moveSnake();
     }
 
@@ -72,7 +68,10 @@ class GameBoard  implements Observer {
     void set_behavior(SnakeMoveBehavior snakeMoveBehavior) {
     	this.snakeMoveBehavior = snakeMoveBehavior;
     }
-    
+
+    /**
+     * Sets the direction of the Snake to go left.
+     */
     void directionLeft () {
         if (lastMove != Direction.RIGHT || getSnakeSize() == 1) {
             set_movement(Direction.LEFT);
@@ -85,7 +84,6 @@ class GameBoard  implements Observer {
      */
     void directionRight () {
         if (lastMove != Direction.LEFT || getSnakeSize() == 1) {
-
             set_movement(Direction.RIGHT);
             set_behavior(new RightBehavior());
         }
@@ -115,7 +113,6 @@ class GameBoard  implements Observer {
      * Moves the Snake one square, according to its direction.
      */
     private void moveSnake () {
-
     	snakeMoveBehavior.action();
         lastMove = movement;
     }
@@ -129,8 +126,8 @@ class GameBoard  implements Observer {
     }
     void addScore(int score) {
     	this.score += score;
-
     }
+
 
     @Override
     public String toString () {
@@ -143,7 +140,7 @@ class GameBoard  implements Observer {
 
                 if (snake.contains(sq)) {
                     sb.append("S");
-                } else if (food.get_food().equals(sq)) {
+                } else if (food.equals(sq)) {
                     sb.append("F");
                 } else {
                     sb.append("-");
