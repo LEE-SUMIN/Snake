@@ -16,7 +16,7 @@ class GameBoard  {
     private Snake snake;
     private int score = 0;
     private Properties properties = Properties.Instance();
-    private DirectionController directionController;
+    DirectionController directionController;
 
     /**
      * Keep track of the last move so that the Snake cannot do 180 degree turns,
@@ -71,48 +71,29 @@ class GameBoard  {
     	this.snakeMoveBehavior = snakeMoveBehavior;
     }
     
-    /**
-     * Sets the direction of the Snake to go left.
-     */
-    Direction reverse(Direction direction) {
-    	Direction rev = null;
-    	if(direction ==Direction.LEFT) rev = Direction.RIGHT;
-    	if(direction ==Direction.RIGHT) rev = Direction.LEFT;
-    	if(direction ==Direction.UP) rev = Direction.DOWN;
-    	if(direction ==Direction.DOWN) rev = Direction.UP;
-		return rev;
-    }
     void directionLeft () {
-    	nextMove = Direction.LEFT;
-    	lastMove = movement;
-    	directionController.setDirection(gameBoard,lastMove,nextMove);    	
+    	directionController.setDirection(gameBoard, movement, Direction.LEFT);   	
     }
 
     /**
      * Sets the direction of the Snake to go right.
      */
     void directionRight () {
-    	nextMove = Direction.RIGHT;
-    	lastMove = movement;
-        directionController.setDirection(gameBoard, lastMove, nextMove);
+    	directionController.setDirection(gameBoard, movement, Direction.RIGHT);
     }
 
     /**
      * Sets the direction of the Snake to go up.
      */
     void directionUp () {
-    	nextMove = Direction.UP;
-    	lastMove = movement;
-    	directionController.setDirection(gameBoard,lastMove,nextMove);
+    	directionController.setDirection(gameBoard, movement, Direction.UP);
     }
 
     /**
      * Sets the direction of the Snake to go down.
      */
     void directionDown () {
-    	nextMove = Direction.DOWN;
-    	lastMove = movement;
-    	directionController.setDirection(gameBoard,lastMove,nextMove);
+    	directionController.setDirection(gameBoard, movement, Direction.DOWN);
     }
 
     /**
