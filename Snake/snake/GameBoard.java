@@ -16,6 +16,7 @@ class GameBoard implements Observer {
     private Snake snake;
     private int score = 0;
     private Properties properties = Properties.Instance();
+    DirectionController directionController;
 
     /**
      * Keep track of the last move so that the Snake cannot do 180 degree turns,
@@ -23,7 +24,8 @@ class GameBoard implements Observer {
      */
     private Direction movement;
     private SnakeMoveBehavior snakeMoveBehavior;
-    private Direction lastMove = movement;
+    private Direction lastMove;
+    private Direction nextMove;
 
     /**
      * Constructs the board.
@@ -68,45 +70,30 @@ class GameBoard implements Observer {
     void set_behavior(SnakeMoveBehavior snakeMoveBehavior) {
     	this.snakeMoveBehavior = snakeMoveBehavior;
     }
-
-    /**
-     * Sets the direction of the Snake to go left.
-     */
+    
     void directionLeft () {
-        if (lastMove != Direction.RIGHT || getSnakeSize() == 1) {
-            set_movement(Direction.LEFT);
-            set_behavior(new LeftBehavior());
-        }
+    	directionController.setDirection(gameBoard, movement, Direction.LEFT);   	
     }
 
     /**
      * Sets the direction of the Snake to go right.
      */
     void directionRight () {
-        if (lastMove != Direction.LEFT || getSnakeSize() == 1) {
-            set_movement(Direction.RIGHT);
-            set_behavior(new RightBehavior());
-        }
+    	directionController.setDirection(gameBoard, movement, Direction.RIGHT);
     }
 
     /**
      * Sets the direction of the Snake to go up.
      */
     void directionUp () {
-        if (lastMove != Direction.DOWN || getSnakeSize() == 1) {
-        	set_movement(Direction.UP);
-            set_behavior(new UpBehavior());
-        }
+    	directionController.setDirection(gameBoard, movement, Direction.UP);
     }
 
     /**
      * Sets the direction of the Snake to go down.
      */
     void directionDown () {
-        if (lastMove != Direction.UP || getSnakeSize() == 1) {
-        	set_movement(Direction.DOWN);
-            set_behavior(new DownBehavior());
-        }
+    	directionController.setDirection(gameBoard, movement, Direction.DOWN);
     }
 
     /**
@@ -117,7 +104,7 @@ class GameBoard implements Observer {
         lastMove = movement;
     }
 
-    private int getSnakeSize () {
+     int getSnakeSize () {
         return snake.getSize();
     }
 
