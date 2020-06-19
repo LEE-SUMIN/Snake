@@ -77,7 +77,6 @@ public class Window extends JFrame {
 		}
 
 		public void run() {
-
 			long lastTime = System.nanoTime();
 			double elapsedTime = 0.0;
 			double FPS = 15.0;
