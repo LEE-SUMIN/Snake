@@ -54,4 +54,10 @@ public class SqareTest {
 		Coordinate coord = new Coordinate(5,5);
 		assertNotEquals(square,coord);
 	}
+	
+	@Test
+	public void testSquareToString() {
+		square = new Square(Entity.Snake,10,10);
+		assertEquals(square.toString(),"Snake at (10, 10)");
+	}
 }
