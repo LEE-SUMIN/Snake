@@ -31,4 +31,14 @@ public class SqareTest {
 		assertEquals(Entity.Food,square.getEntity());
 	}
 	
+	/*
+	 * Purpose : Compare the Square's Coordinate with the newly created Coordinate.
+	 * Expected : Check will pass true  
+	 */
+	@Test
+	public void testCompareCoord() {
+		square=new Square(5,5);
+		Coordinate coord = new Coordinate(5,5);
+		assertEquals(coord,square.getCoord());
+	}
 }
