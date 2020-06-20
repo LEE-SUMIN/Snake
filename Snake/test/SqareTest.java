@@ -55,9 +55,25 @@ public class SqareTest {
 		assertNotEquals(square,coord);
 	}
 	
+	/*
+	 * Purpose : Compare String(Square.toString) with correct text.
+	 * Expected : Check will pass true. 
+	 */
 	@Test
 	public void testSquareToString() {
 		square = new Square(Entity.Snake,10,10);
 		assertEquals(square.toString(),"Snake at (10, 10)");
+	}
+	
+	/**********************************************************************/
+	/*
+	 * Purpose : Boundary value analysis_1
+	 * Expected : Check will pass true.
+	 */
+	@Test
+	public void testSquareXYBound_1() {
+		square = new Square(0,0);
+		Coordinate coord = new Coordinate(0,0);
+		assertEquals(square.getCoord(),coord);
 	}
 }
