@@ -98,4 +98,15 @@ public class SqareTest {
 		Coordinate coord = new Coordinate(40,20);
 		assertEquals(square.getCoord(),coord);
 	}
+	
+	/*
+	 * Purpose : Boundary value analysis_4
+	 * Expected : Check will pass true.
+	 */
+	@Test
+	public void testSquareXYBound_4() {
+		square = new Square(41,21);
+		Coordinate coord = new Coordinate(40,20);
+		assertEquals(square.getCoord(),coord);
+	}
 }
