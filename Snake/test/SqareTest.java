@@ -76,4 +76,15 @@ public class SqareTest {
 		Coordinate coord = new Coordinate(0,0);
 		assertEquals(square.getCoord(),coord);
 	}
+	
+	/*
+	 * Purpose : Boundary value analysis_2
+	 * Expected : Check will pass true.
+	 */
+	@Test
+	public void testSquareXYBound_2() {
+		square = new Square(-1,-1);
+		Coordinate coord = new Coordinate(0,0);
+		assertEquals(square.getCoord(),coord);
+	}
 }
