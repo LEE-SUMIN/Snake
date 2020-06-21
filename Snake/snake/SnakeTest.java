@@ -135,7 +135,7 @@ class SnakeTest {
 	*
 	*/
 	@Test
-	public void testGetSnake() {
+	public void testGetSnake2() {
 		Snake snake = null;
 		snake = snake.get_snake();
 		assertNotNull(snake);

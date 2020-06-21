@@ -8,7 +8,7 @@ package snake;
  * cannot move 180 degrees. Example: if the Snake is moving right, it cannot
  * immediately change its direction to left because it would run into itself.
  */
-class GameBoard implements Observer {
+public class GameBoard implements Observer {
 	private static GameBoard gameBoard;
     private Food food;
     private Snake snake;
@@ -62,11 +62,6 @@ class GameBoard implements Observer {
     	return food;
     }
 
-    Direction get_movement() {
-    	return movement;
-    }
-
-    
     Direction get_movement() {
     	return movement;
     }
