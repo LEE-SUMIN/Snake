@@ -1,9 +1,8 @@
 package snake;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.Test;
+import org.junit.runners.Parameterized.Parameter;
 
 
 class GameBoardTest {
@@ -58,5 +57,20 @@ class GameBoardTest {
 		gameboard.set_behavior(new DownBehavior());
 		gameboard.update();
 		assertEquals(gameboard.get_movement(), Direction.DOWN);
+	}
+	
+	/**
+	*Purpose: to check if addScore() adds score correctly.
+	*Input: NONE
+	*Expected:
+	*	Return SUCCESS
+	*	0(original score) + 30 = 30
+	*/
+	@Test
+	void testAddScore() {
+		GameBoard gameboard = GameBoard.get_board();
+		int s = 30;
+		gameboard.addScore(s);
+		assertEquals(gameboard.getScore(), 30);
 	}
 }
