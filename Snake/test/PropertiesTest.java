@@ -153,4 +153,21 @@ public class PropertiesTest {
 			properties.changeBackGroundColor();
 		}
 	}
+	
+	/*
+	 * Purpose : Check whether when background color is (230~224, 61~149, 61~76), it can be changed to (223,150,77) by (-1,1,1) 
+	 * 	after calling changeBackGroundColor().
+	 * Expected : Check will pass true.
+	 */
+	@Test
+	public void testChangeBackGroundColor_4() {
+		while(true) {
+			if(properties.getBackgroundColor().equals(new Color(223,68,68))) {
+				properties.changeBackGroundColor();
+				assertEquals(properties.getBackgroundColor(),new Color(223,69,69));
+				break;
+			}
+			properties.changeBackGroundColor();
+		}
+	}
 }
