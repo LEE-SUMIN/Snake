@@ -237,10 +237,22 @@ class EngineTest {
 		assertEquals((Direction)movement.get(g), Direction.DOWN);
 	}
 	
-	
+	/**
+	* Purpose: 	Test the startGame method. Check the running bit to determine whether the game is running.
+	* Input: None
+	* Expected:
+	* 		Return true
+	*/
 	@Test
-	void startGameTest() {
+	void startGameTest() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
 		Engine.initialize();
 		Engine e = Engine.getEngine();
+		Field running = e.getClass().getDeclaredField("running");
+		running.setAccessible(true);
+		
+		assertFalse(running.getBoolean(e));
+
+		e.startGame();
+		assertTrue(running.getBoolean(e));
 	}
 }
