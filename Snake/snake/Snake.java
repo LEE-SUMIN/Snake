@@ -28,7 +28,9 @@ class Snake implements Iterable<Square> {
      * @param startX    the x coordinate of the location
      * @param startY    the y coordinate of the location
      */
+    
     Snake (int startX, int startY) {
+    	
         snakeList = new ArrayList<>();
         snakeList.add(new Square(Entity.Snake, startX, startY));
     }
