@@ -23,6 +23,16 @@ public class PropertiesTest {
 		assertEquals(properties.hashCode(),diffProperties.hashCode());
 	}
 	
-	
+	/*
+	 * Purpose : Check whether Properties's theme can be changed from Dark to Rainbow theme
+	 *  after calling Rainbow().
+	 * Expected : Check will pass true.
+	 */
+	@Test
+	public void testCheckTheme_1() {
+		assertEquals(properties.getTheme(),Theme.Dark);
+		properties.Rainbow();
+		assertEquals(properties.getTheme(),Theme.Rainbow);
+	}
 	
 }
