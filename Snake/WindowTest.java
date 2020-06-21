@@ -16,10 +16,9 @@ import snake.Engine;
 import snake.Painter;
 import snake.Properties;
 import snake.Window;
+import snake.GameBoard;
 
 class WindowTest {
-
-	
 	/**
 	* Purpose: Check if it returns Window object normally.The Window object should return even when no object is assigned as Singleton.
 	* Input: None
@@ -144,5 +143,30 @@ class WindowTest {
 		
 		//  setVisible Test
 		assertTrue(window.isVisible());
+	}
+	
+	/**
+	* Purpose: Make sure the update method updates the score properly.
+	* Input: None
+	* Expected: 
+	*     The update method updates the score each time it is called. 
+	*     Therefore, change the score of the GameBoard object and check if it is reflected normally when the update method is called. 
+	*     In this case, if the set score and the score displayed in the title are different, assert failure occurs.
+	*/
+	@Test
+	void windowUpdateTest() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		Window window = Window.getWindow();
+		GameBoard g = GameBoard.get_board();
+		Method m = g.getClass().getDeclaredMethod("getScore");
+		Field score = g.getClass().getDeclaredField("score");
+		score.setAccessible(true);
+		m.setAccessible(true);
+		
+		window.update();
+		assertTrue(window.getTitle().equals("Snake - Score: " + (int)m.invoke(g)));
+		
+		score.set(g, 123);
+		window.update();
+		assertTrue(window.getTitle().equals("Snake - Score: " + (int)123));
 	}
 }
