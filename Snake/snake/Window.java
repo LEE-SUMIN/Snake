@@ -33,6 +33,7 @@ public class Window extends JFrame implements Observer{
     	return window;
     }
     
+    
     public void createAndShowGUI() {
     	Properties p = Properties.Instance();
     	canvasWidth = p.getSquareSize() * p.getBoardColumns();
