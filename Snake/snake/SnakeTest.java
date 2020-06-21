@@ -109,4 +109,24 @@ public class SnakeTest {
 		Snake snake = new Snake();
 		assertNotNull(snake.toString());
 	}
+	/**
+	*Purpose: check when call getSnake with null snake, it should be make new snake, so there is no null on snake.
+	*Input: 
+	*Expected:
+	*	Return NotNull
+	*
+	*/
+	@Test
+	public void testGetSnake() {
+		Snake snake = null;
+		snake = snake.get_snake();
+		assertNotNull(snake);
+	}
+	/*
+	@Test
+	public void testSnakeContainFood() {
+		Snake snake = new Snake();
+		Square pos = snake.getHead();
+		assertTrue(contain(pos));
+	}*/
 }
