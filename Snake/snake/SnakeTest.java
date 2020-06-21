@@ -97,5 +97,16 @@ public class SnakeTest {
 		Snake snake = new Snake();
 		assertNull(snake.getTail());
 	}
-	
+	/**
+	*Purpose: check ToString
+	*Input: 
+	*Expected:
+	*	Return NotNull
+	*
+	*/
+	@Test
+	public void testToString() {
+		Snake snake = new Snake();
+		assertNotNull(snake.toString());
+	}
 }
