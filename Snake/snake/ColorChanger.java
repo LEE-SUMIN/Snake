@@ -19,7 +19,7 @@ public abstract class ColorChanger {
 		return result;
 	}
 	public void changeColor(Color fromColor) {
-		Color toColor=setToColor(fromColor);
+		Color toColor = setToColor(fromColor);
 		changeRGB(fromColor,toColor);
 	}
 	//Template method pattern

@@ -1,9 +1,26 @@
 package snake;
 
-import static org.junit.Assert.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 
-public class SnakeTest {
+class SnakeTest {
+
+	/**
+	*Purpose: to check if it is same with existing object.
+	*Input: NONE
+	*Expected:
+	*	Return SUCCESS
+	*	snake = snake2
+	*/
+	@Test
+	void testGetSnake() {
+		Snake snake = Snake.get_snake();
+		Snake snake2 = Snake.get_snake();
+		assertSame(snake, snake2);
+	}
+
 	/**
 	*Purpose: check the size of initial Snake
 	*Input: 
@@ -109,6 +126,7 @@ public class SnakeTest {
 		Snake snake = new Snake();
 		assertNotNull(snake.toString());
 	}
+
 	/**
 	*Purpose: check when call getSnake with null snake, it should be make new snake, so there is no null on snake.
 	*Input: 
@@ -130,3 +148,4 @@ public class SnakeTest {
 		assertTrue(contain(pos));
 	}*/
 }
+
