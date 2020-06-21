@@ -5,6 +5,7 @@ public abstract class CheckTemplate {
 	private GameBoard gameBoard = GameBoard.get_board();
     private Food food;
     private Properties properties = Properties.Instance();
+
 	public final void check() {
 		food = gameBoard.get_food();	
 		if(!checkMovement()) {
@@ -13,7 +14,7 @@ public abstract class CheckTemplate {
 		checkBounds();
 		checkIfAteFood();
 	}
-	
+
 	public abstract boolean checkMovement();
 	
 	private void checkBounds () {
