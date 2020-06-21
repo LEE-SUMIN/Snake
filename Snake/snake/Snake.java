@@ -89,7 +89,7 @@ class Snake implements Iterable<Square> {
      * @param direction  the direction to direction the Snake.
      * @return      true if the Snake did not collide with itself
      */
-    public synchronized boolean move (Direction direction) {
+    private synchronized boolean move (Direction direction) {
 
         int xOffset = 0;
         int yOffset = 0;

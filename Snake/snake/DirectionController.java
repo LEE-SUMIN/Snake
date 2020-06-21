@@ -6,7 +6,7 @@ public class DirectionController {
 	public DirectionController(Direction direction) {
 		this.direction = direction;
 	}
-	 void set_behavior(Direction nextMove) {
+	private void set_behavior(Direction nextMove) {
 		if(nextMove==Direction.LEFT) gameBoard.set_behavior(new LeftBehavior());
 		if(nextMove==Direction.RIGHT) gameBoard.set_behavior(new RightBehavior());
 		if(nextMove==Direction.UP) gameBoard.set_behavior(new UpBehavior());

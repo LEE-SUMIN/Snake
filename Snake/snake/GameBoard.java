@@ -65,9 +65,7 @@ class GameBoard implements Observer {
     void set_movement(Direction direction) {
     	movement = direction;
     }
-    Direction get_movement() {
-    	return movement;
-    }
+    
     void set_behavior(SnakeMoveBehavior snakeMoveBehavior) {
     	this.snakeMoveBehavior = snakeMoveBehavior;
     }
