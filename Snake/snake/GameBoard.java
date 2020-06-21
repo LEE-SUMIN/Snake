@@ -1,5 +1,4 @@
 package snake;
-import java.awt.*;
 
 /**
  * Represents the environment where the Snake moves a food spawns.
@@ -9,24 +8,22 @@ import java.awt.*;
  * cannot move 180 degrees. Example: if the Snake is moving right, it cannot
  * immediately change its direction to left because it would run into itself.
  */
-
-class GameBoard  {
+class GameBoard implements Observer {
 	private static GameBoard gameBoard;
     private Food food;
     private Snake snake;
     private int score = 0;
     private Properties properties = Properties.Instance();
-
+    private DirectionController directionController;
 
     /**
      * Keep track of the last move so that the Snake cannot do 180 degree turns,
      * only 90 degree turns.
      */
-
     private Direction movement;
-
     private SnakeMoveBehavior snakeMoveBehavior;
-    private Direction lastMove = movement;
+    private Direction lastMove;
+    private Direction nextMove;
 
     /**
      * Constructs the board.
@@ -36,6 +33,7 @@ class GameBoard  {
         this.snake = Snake.get_snake();
         this.food = new Food();
         this.snakeMoveBehavior = new DownBehavior();
+        this.directionController = new DirectionController(Direction.DOWN);
         properties=Properties.Instance();
         update();
     }
@@ -47,13 +45,12 @@ class GameBoard  {
     		gameBoard = new GameBoard();
     	}
     	return gameBoard;
-
     }
 
     /**
      * Move the Snake.
      */
-    void update () {
+    public void update () {
         moveSnake();
     }
 
@@ -64,7 +61,16 @@ class GameBoard  {
     Food get_food() {
     	return food;
     }
+
+    Direction get_movement() {
+    	return movement;
+    }
+
     
+    Direction get_movement() {
+    	return movement;
+    }
+
     void set_movement(Direction direction) {
     	movement = direction;
     }
@@ -74,53 +80,39 @@ class GameBoard  {
     }
     
     void directionLeft () {
-        if (lastMove != Direction.RIGHT || getSnakeSize() == 1) {
-            set_movement(Direction.LEFT);
-            set_behavior(new LeftBehavior());
-        }
+    	directionController.set_direction(movement, Direction.LEFT);   	
     }
 
     /**
      * Sets the direction of the Snake to go right.
      */
     void directionRight () {
-        if (lastMove != Direction.LEFT || getSnakeSize() == 1) {
-
-            set_movement(Direction.RIGHT);
-            set_behavior(new RightBehavior());
-        }
+    	directionController.set_direction(movement, Direction.RIGHT);
     }
 
     /**
      * Sets the direction of the Snake to go up.
      */
     void directionUp () {
-        if (lastMove != Direction.DOWN || getSnakeSize() == 1) {
-        	set_movement(Direction.UP);
-            set_behavior(new UpBehavior());
-        }
+    	directionController.set_direction(movement, Direction.UP);
     }
 
     /**
      * Sets the direction of the Snake to go down.
      */
     void directionDown () {
-        if (lastMove != Direction.UP || getSnakeSize() == 1) {
-        	set_movement(Direction.DOWN);
-            set_behavior(new DownBehavior());
-        }
+    	directionController.set_direction(movement, Direction.DOWN);
     }
 
     /**
      * Moves the Snake one square, according to its direction.
      */
     private void moveSnake () {
-
     	snakeMoveBehavior.action();
         lastMove = movement;
     }
 
-    private int getSnakeSize () {
+     int getSnakeSize () {
         return snake.getSize();
     }
 
@@ -129,42 +121,8 @@ class GameBoard  {
     }
     void addScore(int score) {
     	this.score += score;
-
     }
 
-    void paint (Graphics graphics) {
-
-        Graphics2D g = (Graphics2D) graphics;
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        paintSnake(g);
-        paintFood(g);
-    }
-
-    private void paintSnake (Graphics2D g) {
-        int x, y;
-        int corner = properties.getSquareSize() / 3;
-
-        for (Square sq : snake) {
-
-            x = sq.getX() * properties.getSquareSize();
-            y = sq.getY() * properties.getSquareSize();
-
-            g.setColor(properties.getSnakeColor());
-            g.fillRoundRect(x + 1, y + 1, properties.getSquareSize() - 2,
-                    properties.getSquareSize() - 2, corner, corner);
-
-        }
-    }
-
-    private void paintFood (Graphics2D g) {
-        int x = food.get_X() * properties.getSquareSize();
-        int y = food.get_Y() * properties.getSquareSize();
-        int corner = properties.getSquareSize() / 3;
-        g.setColor(properties.getFoodColor());
-        g.fillRoundRect(x + 1, y + 1, properties.getSquareSize() - 2,
-                properties.getSquareSize() - 2, corner, corner);
-    }
 
     @Override
     public String toString () {
@@ -177,7 +135,7 @@ class GameBoard  {
 
                 if (snake.contains(sq)) {
                     sb.append("S");
-                } else if (food.get_food().equals(sq)) {
+                } else if (food.equals(sq)) {
                     sb.append("F");
                 } else {
                     sb.append("-");
