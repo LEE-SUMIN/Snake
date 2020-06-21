@@ -2,6 +2,9 @@ package test;
 
 import snake.*;
 import static org.junit.Assert.*;
+
+import java.awt.Color;
+
 import org.junit.Test;
 import org.junit.Before;
 
@@ -98,5 +101,22 @@ public class PropertiesTest {
 		assertEquals(properties.getTheme(),Theme.Sand);
 		properties.Rainbow();
 		assertEquals(properties.getTheme(),Theme.Rainbow);
+	}
+	
+	/*
+	 * Purpose : Check whether when background color is (36~41, 165~96, 107~202), it can be changed to (42,97,203) by (1,-1,1) 
+	 * 	after calling changeBackGroundColor().
+	 * Expected : Check will pass true.
+	 */
+	@Test
+	public void testChangeBackGroundColor_1() {
+		while(true) {
+			if(properties.getBackgroundColor().equals(new Color(40,161,111))) {
+				properties.changeBackGroundColor();
+				assertEquals(properties.getBackgroundColor(),new Color(41,160,112));
+				break;
+			}
+			properties.changeBackGroundColor();
+		}
 	}
 }

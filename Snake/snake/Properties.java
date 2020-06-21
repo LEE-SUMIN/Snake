@@ -33,8 +33,8 @@ public class Properties {
 	//----------------------------------------
 	public void changeBackGroundColor() {
 		Color currentBackgroundColor = boardColor.getBackgroundColor();
-		colorChanger.changeColor(currentBackgroundColor);
-		boardColor.setBackgroundColor(currentBackgroundColor);
+		Color newColor = colorChanger.getChangeColor(currentBackgroundColor);
+		boardColor.setBackgroundColor(newColor);
 	}
 
 	public Theme getTheme() {
