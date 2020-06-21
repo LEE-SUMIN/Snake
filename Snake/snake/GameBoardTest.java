@@ -1,11 +1,16 @@
 package snake;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runners.Parameterized.Parameter;
 
 
 class GameBoardTest {
+	@BeforeEach
+	static void setup() {
+		GameBoard gameboard = GameBoard.get_board();
+	}
 	/**
 	*Purpose: to check if it is same with existing object.
 	*Input: NONE
