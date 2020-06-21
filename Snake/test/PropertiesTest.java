@@ -86,4 +86,17 @@ public class PropertiesTest {
 		properties.Sand();
 		assertEquals(properties.getTheme(),Theme.Sand);
 	}
+	
+	/*
+	 * Purpose : Check whether Properties's theme can be changed from Sand to Rainbow theme
+	 *  after calling Rainbow().
+	 * Expected : Check will pass true.
+	 */
+	@Test
+	public void testCheckTheme_6() {
+		properties.Sand();
+		assertEquals(properties.getTheme(),Theme.Sand);
+		properties.Rainbow();
+		assertEquals(properties.getTheme(),Theme.Rainbow);
+	}
 }
