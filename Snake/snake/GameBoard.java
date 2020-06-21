@@ -62,6 +62,10 @@ class GameBoard implements Observer {
     	return food;
     }
     
+    Direction get_movement() {
+    	return movement;
+    }
+    
     void set_movement(Direction direction) {
     	movement = direction;
     }
