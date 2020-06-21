@@ -32,7 +32,7 @@ public abstract class CheckTemplate {
         }
     }
 
-    private void checkIfAteFood() {
+    void checkIfAteFood() {
         if (isSnakeOnFood()) {
             growSnake();
             gameBoard.set_food(new Food());
