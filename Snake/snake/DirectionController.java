@@ -2,10 +2,11 @@ package snake;
 
 public class DirectionController {
 	private Direction direction;
-	public DirectionController() {
+	private GameBoard gameBoard = GameBoard.get_board();
+	public DirectionController(Direction direction) {
 		this.direction = direction;
 	}
-	private static void set_behavior(Direction nextMove,GameBoard gameBoard) {
+	private void set_behavior(Direction nextMove) {
 		if(nextMove==Direction.LEFT) gameBoard.set_behavior(new LeftBehavior());
 		if(nextMove==Direction.RIGHT) gameBoard.set_behavior(new RightBehavior());
 		if(nextMove==Direction.UP) gameBoard.set_behavior(new UpBehavior());
@@ -20,10 +21,10 @@ public class DirectionController {
 		if(direction ==Direction.DOWN) rev = Direction.UP;
 		return rev;
 	}
-	public static void setDirection(GameBoard gameBoard,Direction lastMove,Direction nextMove) {
+	public void set_direction(Direction lastMove,Direction nextMove) {
 		if(lastMove!=reverse(nextMove)||gameBoard.getSnakeSize()==1){
 		gameBoard.set_movement(nextMove);
-		set_behavior(nextMove,gameBoard);
+		set_behavior(nextMove);
 		}
 	}
 }
