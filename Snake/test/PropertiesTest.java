@@ -47,4 +47,17 @@ public class PropertiesTest {
 		properties.Dark();
 		assertEquals(properties.getTheme(),Theme.Dark);
 	}
+	
+	/*
+	 * Purpose : Check whether Properties's theme can be changed from Dark to Sky theme
+	 *  after calling Sky().
+	 * Expected : Check will pass true.
+	 */
+	@Test
+	public void testCheckTheme_3() {
+		properties.Dark();
+		assertEquals(properties.getTheme(),Theme.Dark);
+		properties.Sky();
+		assertEquals(properties.getTheme(),Theme.Sky);
+	}
 }
