@@ -27,7 +27,6 @@ class WindowTest {
 	* Input: None
 	* Expected:
 	*	Return Window Object
-	*	
 	*/
 	@Test
 	void getWindowTest() {
@@ -41,10 +40,12 @@ class WindowTest {
 	
 	/**
 	* Purpose: When Window handle is created, check if Width and Height are set normally.
+	*		   Properties are designed with Singleton pattern, so it should return the same Square Size wherever it is called. 
+   	*		   Therefore, if a Square Size different from that declared in the Window object is returned, it will cause an Assert fault.	
 	* Input: None
 	* Expected:
-	*	Properties are designed with Singleton pattern, so it should return the same Square Size wherever it is called. 
-	*   Therefore, if a Square Size different from that declared in the Window object is returned, it will cause an Assert fault.	
+	* 	Window.canvasWidth = p.getSquareSize() * p.getBoardColumns()
+	*   Window.canvasHeight = p.getSquareSize() * p.getBoardRows()
 	*/
 	@Test
 	void setGUISizeTest() {
