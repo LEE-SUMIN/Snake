@@ -17,7 +17,7 @@ import snake.Painter;
 import snake.Properties;
 import snake.Window;
 
-class WindowTest extends JFrame{
+class WindowTest {
 
 	
 	/**
@@ -33,6 +33,7 @@ class WindowTest extends JFrame{
 		
 		window = Window.getWindow();
 		assertNotNull(window);
+		assertSame(window, Window.getWindow());
 	}
 	
 	
@@ -104,16 +105,44 @@ class WindowTest extends JFrame{
 		assertEquals(d.height, (int)h.get(window));
 
 		//addKeyListenerTest
-		assertNotNull(getKeyListeners());
+		assertNotNull(window.getKeyListeners());
 		
 		//Container add painter Test
-		Container cp = getContentPane();
+		Container cp = window.getContentPane();
 		Component c[] = cp.getComponents();
 		Painter p_tmp = null;
 		for(Component com : c) {
-			if(com.equals(p)) p_tmp = (Painter)com;
+			if( (Painter)com == p) p_tmp = (Painter)com;
 		}
-		assertNull(p_tmp);
+		assertNotNull(p_tmp);
 	}
 	
+	/**
+	* Purpose: Verify that the setWindowProperties method works properly.
+	* Input: None
+	* Expected:
+	*   1) setDefaultCloseOperation is a constant called EXIT_ON_CLOSE, which decides under what conditions. If the getDefaultCloseOperation method is not EXIT_ON_CLOSE, assert failure occurs because it is not the case.
+	*   2) Print the Default score with setTitle. Therefore, assert failure occurs when getTitle is not the default score.
+	*   3) This project does not make the window resizable. If the isResizable method returns true, assert failure occurs because it was not working properly.
+	*   4) Window is visible through setVisible method. So, if the isVisible method returns false, the statement is not executed properly, so it returns assert failure.
+	*/
+	@Test
+	void setWindowPropertiesTest() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		Window window = Window.getWindow();
+		Method m = window.getClass().getDeclaredMethod("setWindowProperties");
+		m.setAccessible(true);
+		m.invoke(window);
+		
+		// setDefualtCloseOperation Test
+		assertEquals(window.getDefaultCloseOperation(), window.EXIT_ON_CLOSE);
+		
+		// setTitle Test
+		assertTrue(window.getTitle().equals("Snake - Score: 0"));
+		
+		// setResizable Test
+		assertFalse(window.isResizable());
+		
+		//  setVisible Test
+		assertTrue(window.isVisible());
+	}
 }
