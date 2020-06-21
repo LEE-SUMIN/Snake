@@ -5,7 +5,7 @@ package snake;
  * what is on the Square: either there is food, a piece of the snake, or it is
  * empty.
  */
-class Square {
+public class Square {
 
 	private Entity entity;
 	private Coordinate coord;
