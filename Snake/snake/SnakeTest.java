@@ -67,4 +67,23 @@ public class SnakeTest {
 		assertTrue(snake.getHead().getY()==pos.getY()+1);
 	}
 	
+	/**
+	*Purpose: check snake grow the size
+	*Input: 
+	*Expected:
+	*	Return True
+	*	size of snake = old size of snake + 1
+	*/
+	@Test
+	public void testGrow() {
+		Snake snake = new Snake();
+		int currentSize = 1;
+		snake.grow();
+		assertTrue(snake.getSize()==currentSize+1);
+		currentSize = snake.getSize();
+		int k = 3;
+		snake.grow(k);
+		assertTrue(snake.getSize()==currentSize+k);
+	}
+	
 }
