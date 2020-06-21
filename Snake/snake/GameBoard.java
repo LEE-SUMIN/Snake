@@ -1,4 +1,6 @@
 package snake;
+import java.awt.*;
+import java.util.Random;
 
 /**
  * Represents the environment where the Snake moves a food spawns.
@@ -8,13 +10,13 @@ package snake;
  * cannot move 180 degrees. Example: if the Snake is moving right, it cannot
  * immediately change its direction to left because it would run into itself.
  */
-class GameBoard implements Observer {
+class GameBoard  {
 	private static GameBoard gameBoard;
     private Food food;
     private Snake snake;
     private int score = 0;
     private Properties properties = Properties.Instance();
-    private DirectionController directionController;
+    DirectionController directionController;
 
     /**
      * Keep track of the last move so that the Snake cannot do 180 degree turns,
@@ -33,7 +35,6 @@ class GameBoard implements Observer {
         this.snake = Snake.get_snake();
         this.food = new Food();
         this.snakeMoveBehavior = new DownBehavior();
-        this.directionController = new DirectionController(Direction.DOWN);
         properties=Properties.Instance();
         update();
     }
@@ -50,7 +51,7 @@ class GameBoard implements Observer {
     /**
      * Move the Snake.
      */
-    public void update () {
+    void update () {
         moveSnake();
     }
 
@@ -71,28 +72,28 @@ class GameBoard implements Observer {
     }
     
     void directionLeft () {
-    	directionController.set_direction(movement, Direction.LEFT);   	
+    	directionController.setDirection(gameBoard, movement, Direction.LEFT);   	
     }
 
     /**
      * Sets the direction of the Snake to go right.
      */
     void directionRight () {
-    	directionController.set_direction(movement, Direction.RIGHT);
+    	directionController.setDirection(gameBoard, movement, Direction.RIGHT);
     }
 
     /**
      * Sets the direction of the Snake to go up.
      */
     void directionUp () {
-    	directionController.set_direction(movement, Direction.UP);
+    	directionController.setDirection(gameBoard, movement, Direction.UP);
     }
 
     /**
      * Sets the direction of the Snake to go down.
      */
     void directionDown () {
-    	directionController.set_direction(movement, Direction.DOWN);
+    	directionController.setDirection(gameBoard, movement, Direction.DOWN);
     }
 
     /**
@@ -114,6 +115,40 @@ class GameBoard implements Observer {
     	this.score += score;
     }
 
+    void paint (Graphics graphics) {
+
+        Graphics2D g = (Graphics2D) graphics;
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        paintSnake(g);
+        paintFood(g);
+    }
+
+    private void paintSnake (Graphics2D g) {
+        int x, y;
+        int corner = properties.getSquareSize() / 3;
+
+        for (Square sq : snake) {
+
+            x = sq.getX() * properties.getSquareSize();
+            y = sq.getY() * properties.getSquareSize();
+
+            g.setColor(properties.getSnakeColor());
+            g.fillRoundRect(x + 1, y + 1, properties.getSquareSize() - 2,
+                    properties.getSquareSize() - 2, corner, corner);
+
+        }
+    }
+
+    private void paintFood (Graphics2D g) {
+        int x = food.get_X() * properties.getSquareSize();
+        int y = food.get_Y() * properties.getSquareSize();
+        int corner = properties.getSquareSize() / 3;
+
+        g.setColor(properties.getFoodColor());
+        g.fillRoundRect(x + 1, y + 1, properties.getSquareSize() - 2,
+                properties.getSquareSize() - 2, corner, corner);
+    }
 
     @Override
     public String toString () {
