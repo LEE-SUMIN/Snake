@@ -1,10 +1,15 @@
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.awt.event.KeyEvent;
 import java.lang.reflect.Field;
 
 import org.junit.jupiter.api.Test;
 
+import snake.Direction;
 import snake.Engine;
+import snake.GameBoard;
+import snake.Properties;
+import snake.Theme;
 
 class EngineTest {
 	/**
@@ -37,4 +42,37 @@ class EngineTest {
 		assertSame(e, (Engine)engine.get(e));
 	}
 	
+	
+	/**
+	* Purpose: Check if the keyInterruptHandler method is working properly. 
+	* 		   In this method, the function key controls the theme change and the direction key controls the snake movement. everywhere.
+	* Input: F1, Left, Up Key Input
+	* Expected:
+	*    Function key changes the theme. Otherwise, assert failure occurs.
+	*	 The first arrow key signals the start of the game. Therefore, assert failure occurs if it is not started after checking the corresponding bit of the engine.
+	*	 The second direction key indicates the up direction. If the snake's movement does not match the Direction.UP, an assert failure occurs.
+	*/
+	@Test
+	void keyInterruptHandlerTest() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+		Engine.initialize();
+		Engine e = Engine.getEngine();
+		GameBoard g = GameBoard.get_board();
+		Properties p = Properties.Instance();
+		
+		Field running = e.getClass().getDeclaredField("running");
+		running.setAccessible(true);
+		
+		e.keyInterruptHandler(KeyEvent.VK_LEFT);
+		assertTrue((boolean)running.get(e));
+		
+		Field m = g.getClass().getDeclaredField("movement");
+		m.setAccessible(true);
+		e.keyInterruptHandler(KeyEvent.VK_UP);
+		assertEquals(Direction.UP, (Direction)m.get(g));
+		
+		Field t = p.getClass().getDeclaredField("theme");
+		t.setAccessible(true);
+		e.keyInterruptHandler(KeyEvent.VK_F1);
+		assertEquals(Theme.Dark, (Theme)t.get(p));
+	}
 }
