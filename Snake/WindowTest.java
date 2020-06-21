@@ -18,6 +18,9 @@ import snake.Properties;
 import snake.Window;
 import snake.GameBoard;
 
+
+/* Window Code Coverage : 23/24, 96% */
+
 class WindowTest {
 	/**
 	* Purpose: Check if it returns Window object normally.The Window object should return even when no object is assigned as Singleton.

@@ -2,6 +2,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import org.junit.jupiter.api.Test;
 
@@ -76,6 +78,7 @@ class EngineTest {
 		assertEquals(Theme.Dark, (Theme)t.get(p));
 	}
 	
+	
 	/**
 	* Purpose: Run a branch test of the keyInterruptHandler method. 
 	* 		   Make sure to execute the proper syntax for each branch condition.
@@ -114,5 +117,38 @@ class EngineTest {
 		e.keyInterruptHandler(KeyEvent.VK_RIGHT);
 		assertEquals(Direction.RIGHT, (Direction)m.get(g));
 		assertTrue(running.getBoolean(e));
+	}
+	
+	/**
+	* Purpose: perform branch and coverage tests of the selectBackGround method. 
+	* 	       React appropriately to each function key input and ignore any unspecified inputs.
+	* Input: F1, F2, F3, F4, F5 key input
+	* Expected:
+	*    If the theme setting mapped to each function key is not properly performed, assert failure occurs.
+	*/
+	@Test
+	void selectBackGroundTest() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		Engine.initialize();
+		Engine e = Engine.getEngine();
+		Properties p = Properties.Instance();
+		Method m = e.getClass().getDeclaredMethod("selectBackGround", int.class);
+		Field t = p.getClass().getDeclaredField("theme");
+		m.setAccessible(true);
+		t.setAccessible(true);
+		
+		m.invoke(e, KeyEvent.VK_F1);
+		assertEquals(Theme.Dark, (Theme)t.get(p));
+		
+		m.invoke(e, KeyEvent.VK_F2);
+		assertEquals(Theme.Sky, (Theme)t.get(p));
+		
+		m.invoke(e, KeyEvent.VK_F3);
+		assertEquals(Theme.Mud, (Theme)t.get(p));
+		
+		m.invoke(e, KeyEvent.VK_F4);
+		assertEquals(Theme.Rainbow, (Theme)t.get(p));
+		
+		m.invoke(e, KeyEvent.VK_F5);
+		assertEquals(Theme.Rainbow, (Theme)t.get(p));
 	}
 }

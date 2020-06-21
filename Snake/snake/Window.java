@@ -17,16 +17,7 @@ public class Window extends JFrame implements Observer{
     private int canvasWidth;
     private int canvasHeight; 
     
-    public Window() {
-    	/*
-    	Properties p = Properties.Instance();
-    	canvasWidth = p.getSquareSize() * p.getBoardColumns();
-    	canvasHeight = p.getSquareSize() * p.getBoardRows();
-    	
-        createEngine();
-        setWindowProperties();
-        */
-    }
+    public Window() { }
     
     public static Window getWindow() {
     	if(window == null) window = new Window();
