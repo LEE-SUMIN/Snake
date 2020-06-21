@@ -85,5 +85,17 @@ public class SnakeTest {
 		snake.grow(k);
 		assertTrue(snake.getSize()==currentSize+k);
 	}
+	/**
+	*Purpose: check get Tail
+	*Input: 
+	*Expected:
+	*	Return Null
+	*
+	*/
+	@Test
+	public void testGetTail() {
+		Snake snake = new Snake();
+		assertNull(snake.getTail());
+	}
 	
 }
